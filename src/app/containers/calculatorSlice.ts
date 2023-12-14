@@ -3,11 +3,13 @@ import {createSlice} from '@reduxjs/toolkit';
 interface CalculatorState {
   expression: string;
   result: number;
+  isActive: boolean;
 }
 
 const initialState: CalculatorState = {
   expression: '',
   result: 0,
+  isActive: true,
 };
 
 const isOperator = (char: string) => {
@@ -53,11 +55,18 @@ export const calculatorSlice = createSlice({
     },
     getResult: (state) => {
       try {
+        state.isActive = !state.isActive;
         state.result = eval(state.expression);
         state.expression = state.result.toString();
       } catch (e) {
         state.result = NaN;
       }
+    },
+    showResult: (state) => {
+      state.isActive = true;
+    },
+    hideResult: (state) => {
+      state.isActive = false;
     },
   }
 });
@@ -67,5 +76,8 @@ export const calculatorReducer = calculatorSlice.reducer;
 export const {
   update,
   clear,
-  getResult
+  getResult,
+  showResult,
+  hideResult
 } = calculatorSlice.actions;
+
