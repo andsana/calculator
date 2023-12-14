@@ -1,6 +1,7 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../store';
-import {clear, update, getResult, showResult, hideResult} from './calculatorSlice'; // Импортируем showResult и hideResult
+import {clear, update, getResult, showResult, hideResult} from './calculatorSlice';
+import './Calculator.css';
 
 const Calculator = () => {
   const calculatorExpression = useSelector((state: RootState) => state.calculator.expression);
@@ -13,17 +14,17 @@ const Calculator = () => {
   const onButtonClick = (char: string) => {
     if (char === '=') {
       dispatch(getResult());
-      dispatch(showResult()); // Используем showResult из slice
+      dispatch(showResult());
     } else {
       dispatch(update(char));
-      dispatch(hideResult()); // Используем hideResult из slice
+      dispatch(hideResult());
     }
   };
 
   return (
     <>
       <h4 className="m-3">Calculator</h4>
-      <div className="calculator p-3 m-3">
+      <div className="calculator">
         <div className="display">
           <p>{show}</p>
         </div>
@@ -33,7 +34,6 @@ const Calculator = () => {
             <button onClick={() => onButtonClick('8')}>8</button>
             <button onClick={() => onButtonClick('9')}>9</button>
             <button onClick={() => onButtonClick('+')}>+</button>
-
           </div>
           <div>
             <button onClick={() => onButtonClick('4')}>4</button>
