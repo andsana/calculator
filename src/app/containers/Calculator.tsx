@@ -1,14 +1,16 @@
 import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from "../store";
-import {update} from './calculatorSlice'; // Импортируем showResult и hideResult
+import {RootState} from '../store';
+import {update, clear, getResult} from './calculatorSlice'; // Импортируем showResult и hideResult
 
 const Calculator = () => {
   const calculatorExpression = useSelector((state: RootState) => state.calculator.expression);
+  const calculatorResult = useSelector((state: RootState) => state.calculator.result);
   const dispatch = useDispatch();
 
 
   const onButtonClick = (char: string) => {
-      dispatch(update(char));
+    dispatch(update(char));
+    dispatch(getResult());
   };
 
   return (
@@ -16,7 +18,8 @@ const Calculator = () => {
       <h4 className="m-3">Calculator</h4>
       <div className="calculator p-3 m-3">
         <div className="display">
-            <p>{calculatorExpression}</p>
+          <p>{calculatorResult}</p>
+          <p>{calculatorExpression}</p>
         </div>
         <div className="buttons d-flex flex-column">
           <div>
@@ -39,6 +42,7 @@ const Calculator = () => {
             <button onClick={() => onButtonClick('*')}>*</button>
           </div>
           <div className="d-flex">
+            <button onClick={() => dispatch(clear())}>C</button>
             <button onClick={() => onButtonClick('0')}>0</button>
             <button onClick={() => onButtonClick('=')}>=</button>
             <div className="">

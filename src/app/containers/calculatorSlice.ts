@@ -41,6 +41,24 @@ export const calculatorSlice = createSlice({
         state.expression += action.payload;
       }
     },
+    clear: (state) => {
+      state.expression = state.expression.slice(0, -1);
+      const resultAsString = state.result.toString();
+      state.result = parseFloat(resultAsString.slice(0, -1));
+
+      if (state.expression.length === 0) {
+        state.expression = '0';
+        state.result = 0;
+      }
+    },
+    getResult: (state) => {
+      try {
+        state.result = eval(state.expression);
+        state.expression = state.result.toString();
+      } catch (e) {
+        state.result = NaN;
+      }
+    },
   }
 });
 
@@ -48,4 +66,6 @@ export const calculatorReducer = calculatorSlice.reducer;
 
 export const {
   update,
+  clear,
+  getResult
 } = calculatorSlice.actions;
